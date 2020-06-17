@@ -11,7 +11,7 @@ public class DescendingIterativeInsertionSorter<E extends Comparable<E>> extends
     }
 
     @Override
-    public E[] sort(E[] items) {
+    public void sort(E[] items) {
         for (int i=1; i<items.length;i++){
             E currentKey = items[i];
             /**
@@ -19,10 +19,8 @@ public class DescendingIterativeInsertionSorter<E extends Comparable<E>> extends
              * - Sub-array items[0..i-1], has already been sorted in ascending order
              * **/
             int placement = findPlacementDesc(items, currentKey, i, this.comparator);
-            if (placement == i)
-                continue;
-            items = moveElementsAndPlaceKey(items, placement,i);
+            System.arraycopy(items, placement, items, placement + 1, i - placement);
+            items[placement] = currentKey;
         }
-        return items;
     }
 }

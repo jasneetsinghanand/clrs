@@ -26,24 +26,27 @@ public abstract class BaseSortTest {
     public void testSimpleAscendingSortWithNegativeItems() throws Exception{
         final Integer[] items = {-7, -9, -8, 7, 9, 8, 0};
         final int length = items.length;
-        Integer[] sortedItems = getAscendingSorter().sort(items);
-        assertThat(sortedItems, arrayWithSize(length));
-        assertThat(sortedItems, arrayContaining(-9, -8, -7, 0, 7, 8, 9));
+        getAscendingSorter().sort(items);
+        assertThat(items, arrayWithSize(length));
+        assertThat(items, arrayContaining(-9, -8, -7, 0, 7, 8, 9));
     }
 
 
     @Test
     public void testSortIntegrity() throws Exception {
-        Integer[] target = {31,41,59,26,41,58};
-        Integer[] expected = {31,41,59,26,41,58};
+        Integer[] target = {31,41,59,26,41,58,-1};
+        Integer[] expected = {31,41,59,26,41,58, -1};
         Arrays.sort(expected);
-        target = getAscendingSorter().sort(target);
+        getAscendingSorter().sort(target);
         assertThat(target, arrayWithSize(expected.length));
         assertThat(target, arrayContaining(expected));
     }
 
     @Test
     public void testSortIntegrityDescending() throws Exception {
+        if (getDescendingSorter() == null) {
+            return;
+        }
         Integer[] target = {31,41,59,26,41,58};
         Integer[] expected = {31,41,59,26,41,58};
         Arrays.sort(expected);
@@ -51,7 +54,8 @@ public abstract class BaseSortTest {
         for(int i=0; i<expected.length; i++) {
             descArray[i] = expected[(expected.length-1)-i];
         }
-        target = getDescendingSorter().sort(target);
+
+        getDescendingSorter().sort(target);
         assertThat(target, arrayWithSize(descArray.length));
         assertThat(target, arrayContaining(descArray));
     }

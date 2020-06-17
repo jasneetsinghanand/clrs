@@ -11,7 +11,7 @@ public class IterativeInsertionSorter<E extends Comparable<E>> extends Insertion
     }
 
     @Override
-    public E[] sort(E[] items) {
+    public void sort(E[] items) {
         for (int i=1; i<items.length;i++){
             E currentKey = items[i];
             /**
@@ -21,8 +21,9 @@ public class IterativeInsertionSorter<E extends Comparable<E>> extends Insertion
             int placement = findPlacement(items, currentKey, i, this.comparator);
             if (placement == i)
                 continue;
-            items = moveElementsAndPlaceKey(items, placement,i);
+            //items = moveElementsAndPlaceKey(items, placement,i);
+            System.arraycopy(items, placement, items, placement + 1, i - placement);
+            items[placement] = currentKey;
         }
-        return items;
     }
 }
